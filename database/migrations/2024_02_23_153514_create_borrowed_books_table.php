@@ -13,11 +13,14 @@ return new class extends Migration
     {
         Schema::create('borrowed_books', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('book_id')->constrained()->onDelete('cascade');
-            $table->foreignId('member_id')->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger("book_id")->nullable(false);
+            $table->unsignedBigInteger("member_id")->nullable(false);
             $table->dateTime('borrowed_at');
             $table->dateTime('returned_at')->nullable(true);
             $table->timestamps();
+
+            $table->foreign("book_id")->on("books")->references("id");
+            $table->foreign("member_id")->on("members")->references("id");
         });
     }
 

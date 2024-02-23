@@ -16,7 +16,7 @@ class BorrowedBookSeeder extends Seeder
     public function run(): void
     {
 
-        $books = Book::query()->limit(2)->first();
+        $books = Book::query()->limit(1)->first();
         $members = Member::query()->limit(1)->first();
 
         // Kondisi di pinjam buku 1 guys
@@ -27,19 +27,5 @@ class BorrowedBookSeeder extends Seeder
         ];
 
         BorrowedBook::create($data);
-
-        // $many = [
-        //     ['book_id' => $books->id,
-        //     'member_id' => $members->id,
-        //     'borrowed_at' => now()],
-        //     ['book_id' => $books->id+1,
-        //     'member_id' => $members->id,
-        //     'borrowed_at' => now()]
-        // ];
-
-        // for($i = 0; $i < count($many); $i++)
-        // {
-        //     BorrowedBook::create($many[$i]);
-        // }
     }
 }

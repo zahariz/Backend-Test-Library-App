@@ -22,4 +22,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('books')->group(function(){
     Route::get('/', [BookController::class, 'getAllBook']);
     Route::post('/{bookId}/borrow', [BookController::class, 'borrowBook'])->middleware('auth');
+    Route::post('/{bookId}/return', [BookController::class, 'returnBook'])->middleware('auth');
 });

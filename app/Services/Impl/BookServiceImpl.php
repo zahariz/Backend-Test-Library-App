@@ -110,4 +110,64 @@ class BookServiceImpl implements BookService {
         $books->save();
     }
 
+    public function returnBookForMember($userId, $bookId)
+    {
+        // Pastikan pengguna terotentikasi
+        $user = User::find($userId);
+        if (!$user) {
+            throw new HttpResponseException(response()->json([
+                'errors' => [
+                    "message" => [
+                        "Unauthorized"
+                    ]
+                ]
+            ])->setStatusCode(400));
+        }
+
+        // Cari anggota berdasarkan pengguna yang terotentikasi
+        $member = Member::where('user_id', $userId)->first();
+        if (!$member) {
+            throw new HttpResponseException(response()->json([
+                'errors' => [
+                    "message" => [
+                        "Member not found"
+                    ]
+                ]
+            ])->setStatusCode(404));
+        }
+
+        $borrowedBook = BorrowedBook::where('member_id', $member->id)
+                        ->where('book_id', $bookId)
+                        ->first();
+
+        if (!$borrowedBook) {
+            throw new HttpResponseException(response()->json([
+                'errors' => [
+                    "message" => [
+                        "Book not borrowed by member."
+                    ]
+                ]
+            ])->setStatusCode(404));
+        }
+
+        $returnDate = Carbon::parse($borrowedBook->borrowed_at);
+        $lateDays = max(0, $returnDate->diffInDays(Carbon::now()));
+
+        if($lateDays > 7)
+        {
+            // Terapkan sanksi kepada anggota
+            $member = Member::where('user_id', $userId)->first();
+            $member->is_penalized = true;
+            $member->save();
+        }
+
+        // Update status peminjaman buku
+        $borrowedBook->delete();
+
+        // Update stok buku
+        $book = $this->getById($bookId);
+        $book->stock++;
+        $book->save();
+    }
+
 }

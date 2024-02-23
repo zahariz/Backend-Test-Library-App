@@ -34,7 +34,7 @@ class BookTest extends TestCase
 
     public function testBorrowBooksSuccess()
     {
-        $this->seed([BookSeeder::class, MemberSeeder::class, BorrowedBookSeeder::class]);
+        $this->seed([BookSeeder::class, MemberSeeder::class]);
         $books = Book::query()->limit(1)->first();
         $members = Member::query()->limit(1)->first();
         $user = User::query()->limit(1)->first();
@@ -135,5 +135,17 @@ class BookTest extends TestCase
                 ]
             ]
         ]);
+    }
+
+    public function testReturnBookSuccess()
+    {
+        $this->testBorrowBooksSuccess();
+        $books = Book::query()->limit(1)->first();
+        $user = User::query()->limit(1)->first();
+
+        $this->actingAs($user);
+
+        $response = $this->post('/api/books/'.$books->id.'/return')->assertStatus(200);
+        Log::info(json_encode($response, JSON_PRETTY_PRINT));
     }
 }
