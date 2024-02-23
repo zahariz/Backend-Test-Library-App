@@ -3,8 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\Member;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class MemberSeeder extends Seeder
 {
@@ -13,23 +15,16 @@ class MemberSeeder extends Seeder
      */
     public function run(): void
     {
-        $data = [
-            [
-                'code'=> "M001",
-                'name'=> "Angga",
-            ],
-            [
-                'code'=> "M002",
-                'name'=> "Ferry",
-            ],
-            [
-                'code'=> "M003",
-                'name'=> "Putri",
-            ]
-        ];
+        $user = User::create([
+            'name' => 'Test',
+            'email' => 'test@mail.com',
+            'password' => bcrypt('rahasia'),
+        ]);
 
-        for($i = 0; $i < count($data); $i++) {
-            Member::create($data[$i]);
-        }
+        $member = Member::create([
+            'user_id' => $user->id,
+            'code' => 'M001',
+            'is_penalized' => false,
+        ]);
     }
 }

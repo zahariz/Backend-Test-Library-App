@@ -11,14 +11,16 @@ class Book extends Model
     protected $table = 'books';
 
     protected $fillable = [
+        'code',
         'title',
         'author',
         'stock'
     ];
 
-    public function borrowers(): BelongsToMany
+    public function borrowedBy()
     {
-        return $this->belongsToMany(Member::class, 'borrowed_books')->withTimestamps();
+        return $this->belongsToMany(Member::class, 'borrowed_books', 'book_id', 'member_id')
+                    ->withPivot('borrowed_at', 'returned_at');
     }
 
 }

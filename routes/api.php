@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +17,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::prefix('books')->group(function(){
+    Route::get('/', [BookController::class, 'getAllBook']);
+    Route::post('/{bookId}/borrow', [BookController::class, 'borrowBook'])->middleware('auth');
 });
