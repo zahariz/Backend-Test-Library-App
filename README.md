@@ -18,13 +18,6 @@ Test Case Books and Member dengan Use Case :
     - [ ]  The number of books being borrowed by each member
 
 
-## Akses User
-
-- Email
-- [ ]  test@email.com
-- Password
-- [ ]  rahasia
-
 
 ## Portofolio
 
