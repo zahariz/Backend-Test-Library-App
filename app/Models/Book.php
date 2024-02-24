@@ -17,6 +17,11 @@ class Book extends Model
         'stock'
     ];
 
+    public function borrow()
+    {
+        return $this->hasMany(BorrowedBook::class);
+    }
+
     public function borrowedBy()
     {
         return $this->belongsToMany(Member::class, 'borrowed_books', 'book_id', 'member_id')

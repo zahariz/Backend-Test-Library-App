@@ -15,16 +15,15 @@ class MemberSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::create([
-            'name' => 'Test',
-            'email' => 'test@mail.com',
-            'password' => bcrypt('rahasia'),
-        ]);
 
-        $member = Member::create([
-            'user_id' => $user->id,
-            'code' => 'M001',
-            'is_penalized' => false,
-        ]);
+        for($i = 0; $i < 5; $i++){
+            Member::create([
+                'name' => 'Test'.$i,
+                'code' => 'M001',
+                'is_penalized' => false,
+            ]);
+        }
+
+
     }
 }

@@ -14,6 +14,11 @@ class BorrowedBookResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'book_id' => $this->book_id,
+            'member_id' => $this->member_id,
+            'borrowed_at' => $this->borrowed_at,
+            'members' => new MemberResource($this->whenLoaded('member'))
+        ];
     }
 }

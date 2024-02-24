@@ -12,15 +12,16 @@ class Member extends Model
     protected $table = 'members';
 
     protected $fillable = [
-        'user_id',
+        'name',
         'code',
-        'is_penalized'
+        'is_penalized',
+        'penalty_date'
     ];
 
 
-    public function user():BelongsTo
+    public function borrow()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(BorrowedBook::class);
     }
 
     public function borrowedBooks()

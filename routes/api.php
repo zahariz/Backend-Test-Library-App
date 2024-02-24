@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\BorrowedBookController;
+use App\Http\Controllers\MemberController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,11 +18,20 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
 });
 
-Route::prefix('books')->group(function(){
-    Route::get('/', [BookController::class, 'getAllBook']);
-    Route::post('/{bookId}/borrow', [BookController::class, 'borrowBook'])->middleware('auth');
-    Route::post('/{bookId}/return', [BookController::class, 'returnBook'])->middleware('auth');
-});
+    // Route Books
+    Route::get('/books', [BookController::class, 'getAllBook']);
+
+    // Route BorrowedBooks
+    Route::get('/borrowed-books', [BorrowedBookController::class, 'getAllBeingBorrowedBook']);
+    Route::post('/books/{bookId}/members/{memberId}/borrow', [BorrowedBookController::class, 'borrowBook'])
+    ->where('bookId', '[0-9]+')
+    ->where('memberId', '[0-9]+');
+    Route::post('/books/{bookId}/members/{memberId}/return', [BorrowedBookController::class, 'returnBook'])
+    ->where('bookId', '[0-9]+')
+    ->where('memberId', '[0-9]+');
+
+    // Route Members
+    Route::get('/members', [MemberController::class, 'getAllMember']);
+    Route::get('/members/borrows', [MemberController::class, 'getSumBooksByMember']);

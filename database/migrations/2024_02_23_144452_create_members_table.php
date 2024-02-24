@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('members', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('name')->nullable(false);
             $table->string('code', 11)->nullable(false);
             $table->boolean('is_penalized')->default(false);
+            $table->dateTime('penalty_date')->nullable(true);
             $table->timestamps();
         });
     }

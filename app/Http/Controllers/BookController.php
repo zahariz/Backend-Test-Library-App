@@ -29,27 +29,4 @@ class BookController extends Controller
         return (BookResource::collection($availableBooks))->response()->setStatusCode(200);
 
     }
-
-    public function borrowBook(int $bookId): BookResource
-    {
-
-        $userId = Auth::user()->id;
-
-        $this->bookServices->borrowBookForMember($userId, $bookId);
-
-        $books = Book::where('id', $bookId)->first();
-
-        return new BookResource($books);
-    }
-
-    public function returnBook(int $bookId)
-    {
-        $userId = Auth::user()->id;
-
-        $this->bookServices->returnBookForMember($userId, $bookId);
-
-        $books = Book::where('id', $bookId)->first();
-
-        return new BookResource($books);
-    }
 }

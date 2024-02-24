@@ -1,5 +1,6 @@
 <?php
 
+use App\Providers\MemberServiceProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
@@ -169,6 +170,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\BookServiceProvider::class,
+        App\Providers\MemberServiceProvider::class,
+        App\Providers\BorrowedBookServiceProvider::class,
     ])->toArray(),
 
     /*
